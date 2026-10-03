@@ -1,8 +1,8 @@
 # M1-2 개발 과정 기록
 
-## 잠시 종료 — 업로드 전 재개 지점 기록
+## GitHub Public 첫 업로드 완료
 
-사용자가 GitHub Public으로 업로드하기로 선택했다. 후보 검사 385개 PASS 및 비밀 파일 ignore 확인 결과를 현재 상태/재개 메모에 반영했다. 다음은 최종 staged 검사·첫 커밋·원격 업로드이며, 실제 배포/필수 증빙은 그다음이다. 이번 선택 정리는 문서만 변경했다.
+사용자가 Public으로 선택한 `Chaewon81/M1-2_kbo-data-ai-assistant`에 385개 파일을 업로드했다. staged 비밀 검사 PASS, 발견 0건. 커밋 `92f0f3994cf7f46b8c132eaa880afb584dd77634`의 SHA가 로컬과 원격 main에서 일치하고 작업 트리가 clean임을 확인했다. `.env`, Firebase 서비스 계정 JSON, `.venv`, `.tools`, 쿠키/HAR/로그는 제외했다. 다음 단계는 Render/Vercel 실제 배포와 필수 시연 캡처다.
 
 ## GitHub 업로드 사전 점검 — 공개 범위 확인 대기
 

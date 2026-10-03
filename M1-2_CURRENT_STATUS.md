@@ -1,8 +1,8 @@
 # M1-2 현재 상태
 
-## 이번 진행 상태 — GitHub Public 업로드 준비
+## 이번 진행 상태 — GitHub Public 업로드 완료
 
-실제 격리 DB 보호 테스트 8개 PASS, 배포용 API 설정/시연 접근 보호와 문서 보완 완료. 업로드 후보 검사 385개에서 발견된 비밀 없음, 실제 .env/서비스 계정 JSON/가상환경/임시 도구·쿠키 제외 확인. 사용자가 Public으로 진행하기로 선택했다. 로컬 Git 초기화·origin 등록까지 진행했으며 커밋·push는 아직 하지 않았다. 실제 배포 URL·배포 후 필수 캡처는 미완료. [재개 메모](NEXT_SESSION.md)를 우선 참고한다.
+실제 격리 DB 보호 테스트 8개 PASS, 배포용 API 설정/시연 접근 보호와 문서 보완 완료. 업로드 전 385개 staged 파일 비밀 검사를 통과했고, 실제 .env/Firebase 서비스 계정/가상환경/임시 도구·쿠키는 제외했다. Public 저장소 `https://github.com/Chaewon81/M1-2_kbo-data-ai-assistant`에 첫 커밋 `92f0f3994cf7f46b8c132eaa880afb584dd77634`를 올렸으며 로컬·원격 main 일치, 작업 트리 clean을 확인했다. 실제 Render/Vercel 배포 URL과 배포 후 필수 캡처는 미완료. [재개 메모](NEXT_SESSION.md)를 우선 참고한다.
 
 ## 최신: 격리된 실제 DB 8개 테스트 PASS
 

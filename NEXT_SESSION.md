@@ -1,16 +1,16 @@
 # 다음에 “하자!” 하면 여기부터
 
-## 잠시 종료 — 다음 첫 질문은 저장소 공개 범위
+## GitHub 공개 업로드 완료
 
-사용자가 GitHub 저장소를 **Public으로 유지**하기로 선택했다. 다음은 최종 staged 비밀 검사를 거쳐 첫 커밋과 origin 업로드를 진행한다. 공개 범위는 변경하지 않는다.
+사용자가 Public으로 선택한 저장소에 첫 업로드를 완료했다. 다음 작업은 Render 백엔드와 Vercel 프론트엔드 실제 배포다.
 
-현재까지: 실제 격리 보호 테스트 8개 PASS, 제출용 배포 설정/시연 접근 보호 구현·관련 회귀 PASS. GitHub 업로드 후보 검사 385개에서 비밀 패턴/알려진 로컬 비밀 발견 없음, 이미지 확인·PDF 텍스트 검사 진행. `.env`, 서비스 계정 JSON, 가상환경, 임시 도구·쿠키 제외 확인. 로컬 main Git 초기화·origin 등록만 했고 **커밋과 업로드는 아직 0회**. 사용자가 공개 저장소로 진행하기로 선택했다. [업로드 사전 점검](GITHUB_UPLOAD_REVIEW.md).
+커밋 `92f0f3994cf7f46b8c132eaa880afb584dd77634`가 원격 `main`과 일치한다. 385개 staged 파일 검사 PASS, 비밀 패턴 발견 없음. 실제 `.env`, Firebase 서비스 계정, 가상환경, 임시 도구·쿠키는 제외됐다. 실제 배포 URL과 필수 시연 캡처는 아직 없다. [업로드 사전 점검](GITHUB_UPLOAD_REVIEW.md).
 
-선택 후 순서: 업로드 대상/staged 비밀 검사 재확인 → 첫 커밋·push → 원격 일치 확인 → Render/Vercel 실제 배포 → 배포 화면 필수 캡처. 기존 키·운영 .env는 변경하지 않는다. 실행 중 서버를 종료했다면 다음에는 필요한 단계에서 다시 켠다.
+다음 순서: Render 서비스 생성 및 백엔드 환경변수/Secret File 설정 → Render API URL 확인 → Vercel 프로젝트 연결과 공개 API URL 빌드 설정 → 배포 → 모바일 포함 동작 확인 → 필수 화면 캡처. 실제 OpenAI·Firebase 비밀값은 공개 저장소에 넣지 않는다. [배포 안내](DEPLOYMENT_SUBMISSION_GUIDE.md).
 
-## 최신: GitHub 업로드 공개 범위 확인 대기
+## 최신: GitHub 공개 저장소 첫 업로드 완료
 
-사용자가 `Chaewon81/M1-2_kbo-data-ai-assistant`를 Public으로 유지해 업로드하기로 선택했다. 로컬 main Git 초기화·origin 등록, 후보 비밀 검사 및 이미지/PDF 확인을 진행했다. 앞서 확인한 GitHub 메타데이터는 Public(private=false), push 권한 있음, 초기 원격 커밋 없음이었다. 최종 staged 검사 후 첫 커밋·push를 진행한다. 전역 Git 신뢰 설정은 변경하지 않는다. [업로드 점검](GITHUB_UPLOAD_REVIEW.md). 실제 .env·서비스 계정 JSON·가상환경·임시 도구/쿠키 등은 제외한다.
+저장소 `https://github.com/Chaewon81/M1-2_kbo-data-ai-assistant`; Public 및 push 권한 확인 후 업로드했다. 로컬·원격 `main` SHA 모두 `92f0f3994cf7f46b8c132eaa880afb584dd77634`, 작업 트리 clean. 전역 Git 신뢰 설정은 변경하지 않았다. [업로드 점검](GITHUB_UPLOAD_REVIEW.md).
 
 ## 최신: 격리 테스트 8개 실제 재실행 PASS
 
