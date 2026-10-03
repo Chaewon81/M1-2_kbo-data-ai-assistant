@@ -468,3 +468,11 @@ OPENAI_MOCK_MODE=false
 Swagger에서 `GET /api/pitchers`에 `season=2025`, `team=KIA`를 넣으면 `count: 3`이다. `GET /api/data/summary`에 같은 조건을 넣고 `last_n`은 비우면 `count: 144`이다. 화면에서도 2025·KIA를 선택하면 투수 목록 3명이 나와야 한다.
 
 투수는 안 골라도 예측할 수 있다. 양쪽의 해당 시즌·팀 통계가 모두 있으면 팀 80% + 투수 20%, 한쪽만 있으면 팀 성적만 사용한다. 과거 시즌 최종 성적에는 당시 경기 이후 정보도 있어, 그 경기 전에 했을 예측의 정확도를 검증하는 데 사용하면 안 된다.
+
+## 배포 플랫폼: Render와 Vercel
+
+- Render는 FastAPI 백엔드 서버를 인터넷에 올려 실행한다. 이 프로젝트에서는 GPT 호출과 Firestore 연결을 담당한다.
+- Vercel은 HTML·CSS·JavaScript 프론트엔드를 웹 페이지로 제공한다.
+- 프론트엔드는 Vercel 주소로 열고, 필요한 API 요청은 Render 백엔드 주소로 보낸다.
+- Render 무료 서버는 15분 동안 요청이 없으면 잠들 수 있다. 다음 요청이 오면 자동으로 깨어나며 첫 접속은 약 1분 걸릴 수 있다. 사용자가 서버를 직접 깨우지는 않는다.
+- API 주소는 프론트엔드 공개 설정으로 연결하고, OpenAI 키·Firestore 서비스 계정·시연 접근 키는 백엔드(Render)에만 둔다.
