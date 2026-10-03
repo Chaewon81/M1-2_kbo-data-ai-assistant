@@ -1,0 +1,12 @@
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+
+# Local-only PDF inspection tools
+.tools/
+
+# Editor and operating-system files
+.vscode/
+.DS_Store
+Thumbs.db

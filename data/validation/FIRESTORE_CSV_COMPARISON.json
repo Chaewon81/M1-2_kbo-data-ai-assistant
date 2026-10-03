@@ -1,0 +1,91 @@
+{
+  "csv_count": 1360,
+  "firestore_count": 1360,
+  "csv_duplicate_keys": [],
+  "missing": [],
+  "extra": [],
+  "differences": [],
+  "manual_ids": [],
+  "duplicate_game_team_keys": [],
+  "document_id_mismatches": [],
+  "teams": [
+    {
+      "team": "KIA",
+      "csv_count": 134,
+      "firestore_completed_count": 134,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "KT",
+      "csv_count": 136,
+      "firestore_completed_count": 136,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "LG",
+      "csv_count": 135,
+      "firestore_completed_count": 135,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "NC",
+      "csv_count": 136,
+      "firestore_completed_count": 136,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "SSG",
+      "csv_count": 136,
+      "firestore_completed_count": 136,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "두산",
+      "csv_count": 137,
+      "firestore_completed_count": 137,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "롯데",
+      "csv_count": 135,
+      "firestore_completed_count": 135,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "삼성",
+      "csv_count": 135,
+      "firestore_completed_count": 135,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "키움",
+      "csv_count": 139,
+      "firestore_completed_count": 139,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    },
+    {
+      "team": "한화",
+      "csv_count": 137,
+      "firestore_completed_count": 137,
+      "csv_latest_date": "2026-09-30",
+      "firestore_latest_date": "2026-09-30"
+    }
+  ],
+  "limitations": [
+    "같은 날짜·팀의 다른 ID를 자동 통합하지 않음(더블헤더 보호)",
+    "CSV와의 비교이며 KBO 공식 페이지를 재수집한 검증은 아님",
+    "Firestore 쓰기·삭제 없음. is_manual 기록도 변경 없음"
+  ],
+  "checked_at": "2026-10-02T03:12:05.653426+00:00",
+  "season": 2026,
+  "source_csv": "data/games/game_results_2026.csv"
+}

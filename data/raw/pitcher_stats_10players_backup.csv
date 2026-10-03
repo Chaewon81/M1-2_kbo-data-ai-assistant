@@ -1,0 +1,11 @@
+season,team_code,team,player_id,player,games_appeared,innings,earned_runs,era,whip,strikeouts,source_url,as_of,updated_at
+2026,KIA,KIA,54640,네일,29,169.6667,65,3.45,1.17,143,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=54640,2026-09-28,2026-09-30T00:00:00+09:00
+2026,LG,LG,61101,임찬규,28,158.3333,73,4.15,1.33,93,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=61101,2026-09-28,2026-09-30T00:00:00+09:00
+2026,SAMSUNG,삼성,69446,원태인,24,135.3333,70,4.66,1.39,110,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=69446,2026-09-28,2026-09-30T00:00:00+09:00
+2026,DOOSAN,두산,68220,곽빈,26,155,39,2.26,1.06,186,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=68220,2026-09-28,2026-09-30T00:00:00+09:00
+2026,KT,KT,64001,고영표,27,158.6667,63,3.57,1.12,170,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=64001,2026-09-28,2026-09-30T00:00:00+09:00
+2026,KIWOOM,키움,69045,알칸타라,25,155.6667,67,3.87,1.11,137,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=69045,2026-09-28,2026-09-30T00:00:00+09:00
+2026,LOTTE,롯데,51516,김진욱,24,134.3333,59,3.95,1.33,116,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=51516,2026-09-28,2026-09-30T00:00:00+09:00
+2026,NC,NC,65933,구창모,27,151,69,4.11,1.33,124,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=65933,2026-09-28,2026-09-30T00:00:00+09:00
+2026,HANWHA,한화,56719,왕옌청,26,133.6667,59,3.97,1.52,100,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=56719,2026-09-28,2026-09-30T00:00:00+09:00
+2026,SSG,SSG,56823,타케다,25,94.3333,78,7.44,1.82,73,https://www.koreabaseball.com/Record/Player/PitcherDetail/Basic.aspx?playerId=56823,2026-09-28,2026-09-30T00:00:00+09:00

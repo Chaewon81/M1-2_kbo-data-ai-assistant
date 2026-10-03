@@ -1,0 +1,3 @@
+team,training_period,historical_wins,historical_losses,predicted_2026_win_rate,reference
+KIA,2023-2025,225,199,0.531,3개 시즌 전체 승/패 합산 승률
+삼성,2023-2025,213,214,0.499,3개 시즌 전체 승/패 합산 승률

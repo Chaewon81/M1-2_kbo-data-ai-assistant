@@ -1,0 +1,8 @@
+{
+  "framework": null,
+  "buildCommand": "node frontend/build_config.cjs",
+  "outputDirectory": "dist",
+  "headers": [
+    { "source": "/config.js", "headers": [{ "key": "Cache-Control", "value": "no-store" }] }
+  ]
+}

@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+*.json
+!package.json
+!tsconfig.json
+!vercel.json
+# Explicit non-secret validation evidence only; service-account JSON stays ignored.
+!data/validation/FIRESTORE_CSV_COMPARISON.json
+!data/validation/MISSING_GAMES_PREVIEW.json
+!data/validation/MISSING_GAMES_APPLY.json
+!data/validation/GAME_SYNC_PREVIEW.json
+!data/validation/ISOLATED_FIRESTORE_d935b2671a6f.json
+!data/validation/ISOLATED_FIRESTORE_ce45a854d4b5.json
+*.pem
+*.key
+*.p12
+*.pfx
+*adminsdk*.json
+*service-account*.json
+*service_account*.json
+
+# Local output and logs
+*.log
+.coverage
+dist/
+build/
+.tools/
+*cookies*.txt
+*.har
+
+# IDE / OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

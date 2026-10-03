@@ -1,0 +1,64 @@
+{
+  "project_id": "kbo-safety-test",
+  "run_id": "ce45a854d4b5",
+  "ai_calls": 0,
+  "kbo_calls": 0,
+  "synthetic_only": true,
+  "documents_retained": true,
+  "cases": [
+    {
+      "name": "manual_protection",
+      "status": "PASS",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "deletion_protection",
+      "status": "PASS",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "concurrent_lease_claims",
+      "status": "PASS",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "concurrent_update_delete",
+      "status": "PASS",
+      "ordering": "nondeterministic; final deletion checked",
+      "sdk_commit_retry_count": "not measured",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "concurrent_manual_import",
+      "status": "PASS",
+      "import_outcome": "imported_before_manual",
+      "sdk_commit_retry_count": "not measured",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "sdk_injected_retry",
+      "status": "PASS",
+      "attempts": 2,
+      "fault": "injected Aborted at SDK commit",
+      "real_server_conflict_retry": "not established by this test",
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "failure_before_write_recovery",
+      "status": "PASS",
+      "partial_commit_expected": false,
+      "recovery": "PASS",
+      "full_rollback_claimed": false,
+      "operation_aborted_retries": 0
+    },
+    {
+      "name": "partial_commit_failure_recovery",
+      "status": "PASS",
+      "partial_commit_expected": true,
+      "recovery": "PASS",
+      "full_rollback_claimed": false,
+      "operation_aborted_retries": 0
+    }
+  ],
+  "status": "PASS"
+}

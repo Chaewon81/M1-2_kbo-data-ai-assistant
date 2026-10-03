@@ -1,0 +1,14 @@
+{
+  "mode": "read_only_preview",
+  "checked_at": "2026-10-03T00:38:50.301284+00:00",
+  "start": "2026-09-26",
+  "cutoff": "2026-10-02",
+  "source_records": 40,
+  "source_games": 20,
+  "source_latest_date": "2026-10-01",
+  "validation": "PASS",
+  "firestore_writes": 0,
+  "ai_calls": 0,
+  "db_latest_game_date": "2026-09-30",
+  "latest_query": "PASS"
+}

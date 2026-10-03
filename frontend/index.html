@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KBO Data AI Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="data.css" />
+  <link rel="stylesheet" href="provenance.css" />
+  <link rel="stylesheet" href="prediction.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">K</span><div><strong>KBO AI</strong><small>Data Assistant</small></div></div>
+      <button class="new-chat" id="newChat">＋ 새 대화</button>
+      <p class="side-label">최근 대화</p>
+      <div id="conversationList" class="conversation-list"><p class="muted">대화를 불러오는 중...</p></div>
+      <div class="sidebar-bottom"><span class="status-dot"></span> Firestore 연결됨</div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar"><div><p class="eyebrow">KBO INSIGHT</p><h1>데이터로 보는 오늘의 야구</h1></div><div class="api-status"><span class="status-dot"></span><span id="modeLabel">개발용 Mock 모드</span></div></header>
+
+      <section class="panel" style="padding:16px;margin-bottom:20px">
+        <form id="accessForm"><label for="demoKey">시연 접근 키 (공개 배포용)</label>
+          <input id="demoKey" type="password" autocomplete="off" placeholder="평가자에게 별도 전달한 접근 키" />
+          <button type="submit">연결 / 키 변경</button>
+        </form>
+        <small>OpenAI API 키가 아닙니다. 첫 접속은 서버 시작으로 지연될 수 있습니다. 키는 이 탭의 세션에만 보관합니다.</small>
+      </section>
+
+      <section class="hero-card">
+        <div><p class="eyebrow light">AI GAME ANALYST</p><h2>궁금한 경기 흐름을<br /><em>데이터로 물어보세요.</em></h2><p class="hero-copy">시즌 성적, 최근 경기, 승률을 바탕으로 KBO 데이터를 쉽게 분석합니다.</p></div>
+        <div class="hero-ball">⚾</div>
+      </section>
+      <section class="panel" style="padding:20px;margin-bottom:20px" aria-live="polite">
+        <div class="panel-heading"><div><h3>경기 데이터 갱신</h3><p id="syncStatus">갱신 상태를 확인하는 중...</p></div></div>
+        <p id="syncDates" class="muted"></p>
+        <p id="liveSummary" class="muted">현재 조건의 최신 요약을 확인하는 중...</p>
+        <small>이 영역은 현재 데이터입니다. 저장된 대화의 요약은 당시 분석 결과를 유지합니다.</small>
+      </section>
+      <section class="prediction-panel panel">
+        <div class="panel-heading"><div><h3>오늘의 기준선 승부 예측</h3><p>과거 경기 승률 기반이며 실제 승패를 보장하지 않습니다.</p></div><span class="badge">BASELINE</span></div>
+        <form id="predictionForm" class="prediction-form"><div><label>팀 A</label><select id="teamA"><option>KIA</option><option>LG</option><option>삼성</option><option>한화</option><option>두산</option><option>SSG</option><option>KT</option><option>롯데</option><option>NC</option><option>키움</option></select></div><div><label>투수 A (선택)</label><input id="pitcherA" placeholder="이름 입력" /></div><div><label>팀 B</label><select id="teamB"><option>LG</option><option>KIA</option><option>삼성</option><option>한화</option><option>두산</option><option>SSG</option><option>KT</option><option>롯데</option><option>NC</option><option>키움</option></select></div><div><label>투수 B (선택)</label><input id="pitcherB" placeholder="이름 입력" /></div><div><label>시즌</label><select id="predictionSeason"><option selected>2026</option><option>2025</option><option>2024</option><option>2023</option></select></div><div><label>최근 경기</label><select id="predictionLastN"><option>5</option><option selected>10</option><option>20</option></select></div><button type="submit">예측하기</button></form>
+        <div id="predictionResult" class="prediction-result">팀과 조건을 선택한 뒤 예측하기를 눌러보세요.</div>
+      </section>
+
+      <section class="workspace">
+        <div class="chat-panel panel">
+          <div class="panel-heading"><div><h3>AI에게 질문하기</h3><p>현재는 분석 결과를 설명하는 개발용 Mock 응답입니다.</p></div><span class="badge">MOCK</span></div>
+          <div id="chatMessages" class="chat-messages"><div class="welcome-message"><span class="bot-icon">✦</span><div><strong>안녕하세요! KBO AI입니다.</strong><p>팀과 시즌을 선택하고 궁금한 점을 질문해보세요.</p></div></div></div>
+          <form id="chatForm" class="chat-form"><div class="filters"><select id="team"><option value="KIA">KIA</option><option value="삼성">삼성</option><option value="LG">LG</option><option value="두산">두산</option><option value="SSG">SSG</option><option value="KT">KT</option><option value="롯데">롯데</option><option value="한화">한화</option><option value="NC">NC</option><option value="키움">키움</option></select><select id="season"><option selected>2026</option><option>2025</option><option>2024</option><option>2023</option></select><select id="lastN"><option value="5">최근 5경기</option><option value="10" selected>최근 10경기</option><option value="20">최근 20경기</option></select></div><div class="input-row"><input id="message" required placeholder="예: KIA의 최근 경기 흐름은 어때?" /><button type="submit" aria-label="질문 보내기">→</button></div></form>
+        </div>
+
+        <div class="summary-panel panel"><div class="panel-heading"><div><h3>선택 데이터 요약</h3><p id="summaryPeriod">질문을 보내면 요약이 표시됩니다.</p></div><span class="summary-icon">▥</span></div><div id="summaryContent" class="summary-empty">아직 분석 데이터가 없습니다.<br />AI에게 질문을 보내보세요.</div></div>
+      </section>
+      <section class="data-panel panel">
+        <div class="panel-heading"><div><h3>경기 데이터 관리</h3><p>Firestore에 저장된 경기 기록을 확인하고 추가할 수 있습니다.</p></div><button class="refresh-btn" id="refreshData">↻ 새로고침</button></div>
+        <form id="dataForm" class="data-form"><input id="dataDate" type="date" required /><select id="dataTeam"><option>KIA</option><option>삼성</option><option>LG</option><option>두산</option><option>SSG</option><option>KT</option><option>롯데</option><option>한화</option><option>NC</option><option>키움</option></select><input id="dataOpponent" placeholder="상대팀" required /><input id="dataFor" type="number" min="0" placeholder="득점" required /><input id="dataAgainst" type="number" min="0" placeholder="실점" required /><button type="submit">기록 추가</button></form>
+        <div class="table-wrap"><table><thead><tr><th>날짜</th><th>팀</th><th>상대</th><th>점수</th><th>결과</th><th>출처</th><th></th></tr></thead><tbody id="dataRows"><tr><td colspan="7" class="table-empty">데이터를 불러오는 중...</td></tr></tbody></table></div>
+      </section>
+    </main>
+  </div>
+  <script src="config.js?v=20261003-deploy"></script>
+  <script src="app.js?v=20261003-deploy"></script>
+</body>
+</html>

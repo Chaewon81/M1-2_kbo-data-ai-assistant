@@ -1,0 +1,28 @@
+{
+  "project_id": "kbo-safety-test",
+  "run_id": "d935b2671a6f",
+  "ai_calls": 0,
+  "kbo_calls": 0,
+  "synthetic_only": true,
+  "documents_retained": true,
+  "cases": [
+    {
+      "name": "manual_protection",
+      "status": "PASS"
+    },
+    {
+      "name": "deletion_protection",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrent_lease_claims",
+      "status": "PASS"
+    },
+    {
+      "name": "concurrent_update_delete",
+      "status": "FAILED",
+      "error_type": "Aborted"
+    }
+  ],
+  "status": "FAILED"
+}

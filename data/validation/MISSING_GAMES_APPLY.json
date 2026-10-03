@@ -1,0 +1,132 @@
+{
+  "mode": "apply",
+  "candidate_games": 10,
+  "candidate_records": 20,
+  "created_records": 0,
+  "results": [
+    {
+      "game_id": "20260929HHSS0",
+      "ids": [
+        "20260929HHSS0_삼성",
+        "20260929HHSS0_한화"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260929HHSS0_삼성",
+        "20260929HHSS0_한화"
+      ]
+    },
+    {
+      "game_id": "20260929KTHT0",
+      "ids": [
+        "20260929KTHT0_KIA",
+        "20260929KTHT0_KT"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260929KTHT0_KIA",
+        "20260929KTHT0_KT"
+      ]
+    },
+    {
+      "game_id": "20260929LGSK0",
+      "ids": [
+        "20260929LGSK0_LG",
+        "20260929LGSK0_SSG"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260929LGSK0_LG",
+        "20260929LGSK0_SSG"
+      ]
+    },
+    {
+      "game_id": "20260929NCOB0",
+      "ids": [
+        "20260929NCOB0_NC",
+        "20260929NCOB0_두산"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260929NCOB0_NC",
+        "20260929NCOB0_두산"
+      ]
+    },
+    {
+      "game_id": "20260929WOLT0",
+      "ids": [
+        "20260929WOLT0_롯데",
+        "20260929WOLT0_키움"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260929WOLT0_롯데",
+        "20260929WOLT0_키움"
+      ]
+    },
+    {
+      "game_id": "20260930HHSS0",
+      "ids": [
+        "20260930HHSS0_삼성",
+        "20260930HHSS0_한화"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260930HHSS0_삼성",
+        "20260930HHSS0_한화"
+      ]
+    },
+    {
+      "game_id": "20260930KTHT0",
+      "ids": [
+        "20260930KTHT0_KIA",
+        "20260930KTHT0_KT"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260930KTHT0_KIA",
+        "20260930KTHT0_KT"
+      ]
+    },
+    {
+      "game_id": "20260930LGSK0",
+      "ids": [
+        "20260930LGSK0_LG",
+        "20260930LGSK0_SSG"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260930LGSK0_LG",
+        "20260930LGSK0_SSG"
+      ]
+    },
+    {
+      "game_id": "20260930NCOB0",
+      "ids": [
+        "20260930NCOB0_NC",
+        "20260930NCOB0_두산"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260930NCOB0_NC",
+        "20260930NCOB0_두산"
+      ]
+    },
+    {
+      "game_id": "20260930WOLT0",
+      "ids": [
+        "20260930WOLT0_롯데",
+        "20260930WOLT0_키움"
+      ],
+      "status": "skipped_existing_pair",
+      "existing_ids": [
+        "20260930WOLT0_롯데",
+        "20260930WOLT0_키움"
+      ]
+    }
+  ],
+  "needs_reaudit": true,
+  "checked_at": "2026-10-02T03:09:07.614649+00:00",
+  "season": 2026,
+  "audit_report": "data/validation/FIRESTORE_CSV_COMPARISON.json"
+}
