@@ -240,6 +240,14 @@ node backend/scripts/test_deploy_frontend.cjs
 
 [캡처·배포 검증 기록](SUBMISSION_EVIDENCE.md)에 필수 Chat/CRUD/대화 불러오기·Swagger·모바일 캡처와 확인 시각을 기록합니다. 실제 촬영·검증되지 않은 항목은 대기로 둡니다. 자동 갱신 화면이나 코드 테스트만으로 Firestore 추가·모바일 사용성 증빙을 대신하지 않습니다. 평가자에게 시연 키는 비공개 채널로 전달합니다.
 
+2026-10-03 KST 16:31~16:33 실제 배포 화면 촬영·검증: 저장 GPT 대화/요약 조회, 데스크톱 가상 기록 추가(201)/API 재조회/삭제, Swagger 접속, Chrome 390px 대화 목록·요약·폼 배치 PASS. 새 GPT 호출은 없었고, 촬영용 채팅 스크롤 영역만 펼쳤습니다. 작은 화면의 새 질문/CRUD 전송·실제 휴대폰 터치 검증과는 구분합니다.
+
+![질문·저장 GPT 답변·Summary](picture/submission/04_CHAT_SUMMARY_DETAIL.png)
+
+- [이전 대화 불러오기](picture/submission/03_CHAT_SUMMARY_RELOADED.png)
+- [데이터 추가](picture/submission/06_DATA_CREATED.png) / [저장 API 응답](picture/submission/07_STORED_DATA_API.png) / [삭제 후 목록](picture/submission/08_DATA_DELETED.png)
+- [작은 화면](picture/submission/05_MOBILE_CONVERSATION.png) / [배포 Swagger](picture/submission/09_DEPLOYED_SWAGGER.png)
+
 ## 개발 기록
 
 공식 기록 대조 결과와 미확인 범위: [KBO 데이터 검증 보고서](data/validation/KBO_VALIDATION_REPORT.md).

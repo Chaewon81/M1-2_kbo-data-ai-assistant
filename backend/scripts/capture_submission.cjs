@@ -69,11 +69,22 @@ fs.mkdirSync(output, { recursive: true });
       if (!chosen) throw new Error('No saved non-Mock conversation with Summary found');
       await page.locator(`.conversation-item[data-id="${chosen.id}"] .conversation-title`).click();
       await page.waitForFunction(() => document.querySelector('#summaryContent .summary-grid'));
+      await page.locator('#dataRows .delete-btn').first().waitFor({ timeout: 90000 });
+      // Expand the existing scroll region for evidence, without changing its content.
+      await page.locator('#chatMessages').evaluate(el => {
+        el.style.height = 'auto'; el.style.maxHeight = 'none'; el.style.overflow = 'visible'; el.scrollTop = 0;
+      });
       await capture('03_CHAT_SUMMARY_RELOADED.png');
       await page.locator('.workspace').screenshot({ path: path.join(output, '04_CHAT_SUMMARY_DETAIL.png') });
       shots.push('04_CHAT_SUMMARY_DETAIL.png');
       await page.setViewportSize({ width: 390, height: 844 });
       await page.locator(`.conversation-item[data-id="${chosen.id}"] .conversation-title`).click();
+      await page.waitForFunction(() => document.querySelector('#summaryContent .summary-grid'));
+      const mobileControls = await page.evaluate(() => ['message', 'dataDate', 'dataTeam', 'dataOpponent', 'dataFor', 'dataAgainst'].every(id => {
+        const rect = document.getElementById(id).getBoundingClientRect();
+        return rect.width > 0 && rect.left >= 0 && rect.right <= innerWidth;
+      }));
+      if (!mobileControls) throw new Error('Mobile form controls overflow the viewport');
       await capture('05_MOBILE_CONVERSATION.png');
       if (await page.locator('.sidebar').evaluate(el => getComputedStyle(el).display) === 'none') throw new Error('Mobile conversations are hidden');
       await page.setViewportSize({ width: 1440, height: 1000 });
@@ -116,7 +127,8 @@ fs.mkdirSync(output, { recursive: true });
     await docs.locator('.swagger-ui .info').waitFor();
     await capture('09_DEPLOYED_SWAGGER.png', docs);
     console.log(JSON.stringify({ status: 'PASS', mode, checked_at: new Date().toISOString(), shots, ai_calls: aiCalls,
-      sync_post_replaced_with_read_only_status: syncWritesBlocked, synthetic_record_removed: recordId === null }));
+      sync_post_replaced_with_read_only_status: syncWritesBlocked, synthetic_record_removed: recordId === null,
+      chat_scroll_region_expanded_for_capture: mode !== 'public' }));
   } finally {
     if (recordId) {
       const cleanup = await context.request.delete(`${backend}/api/data/${encodeURIComponent(recordId)}`, { headers: { 'X-Demo-Key': key } });
