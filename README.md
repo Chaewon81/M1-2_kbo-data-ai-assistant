@@ -2,9 +2,23 @@
 
 KBO 경기 데이터를 기반으로 팀 경기력 Summary, 대화형 Chat, 기준선 승부 예측, 사용자가 선택한 투수의 시즌 통계를 제공하는 M1-2 프로젝트입니다.
 
+## 평가자 접속 안내
+
+- 웹 서비스: https://m1-2kbo-data-ai-assistant.vercel.app/
+- 백엔드 API: https://m1-2-kbo-data-ai-assistant.onrender.com
+- Swagger: https://m1-2-kbo-data-ai-assistant.onrender.com/docs
+- GitHub: https://github.com/Chaewon81/M1-2_kbo-data-ai-assistant
+- 시연 접근 키: 제출자가 **비공개 제출란으로 별도 전달**합니다. 실제 키는 공개 README에 기재하지 않습니다.
+
+웹 화면 상단에 전달받은 **시연 접근 키**를 입력하고 ‘연결 / 키 변경’을 누르면 기능을 사용할 수 있습니다. Swagger에서는 **Authorize → DemoAccessKey (`X-Demo-Key`)**에 같은 키를 입력합니다.
+
+무료 서버 특성상 첫 접속이 1분 이상 지연될 수 있습니다. 잠시 기다린 뒤 다시 시도해주세요. 실행 방법과 검증 캡처는 이 README와 [제출 증빙 기록](SUBMISSION_EVIDENCE.md)에 있습니다.
+
+**시연 접근 키는 OpenAI API 키가 아닙니다. OpenAI API 키나 Firebase 서비스 계정 JSON은 평가자에게 전달하지 않습니다.**
+
 ## 현재 기능
 
-배포 화면: https://m1-2kbo-data-ai-assistant.vercel.app/ · 백엔드: https://m1-2-kbo-data-ai-assistant.onrender.com/docs. 시연 접근 키는 화면/Swagger에서 별도로 입력하며 저장소에 공개하지 않습니다. Render health·Vercel 공개 API 설정·CORS는 에이전트 확인, 배포 Firestore 연결 및 실제 Chat 응답은 사용자 확인 기준입니다. 최종 배포 캡처는 별도 진행합니다.
+배포 화면: https://m1-2kbo-data-ai-assistant.vercel.app/ · 백엔드: https://m1-2-kbo-data-ai-assistant.onrender.com/docs. 시연 접근 키는 화면/Swagger에서 별도로 입력하며 저장소에 공개하지 않습니다. Render health·Vercel 공개 API 설정·CORS는 에이전트 확인, 배포 Firestore 연결 및 실제 Chat 응답은 사용자 확인 기준입니다. 최종 배포 캡처 7개와 확인 범위는 [제출 증빙 기록](SUBMISSION_EVIDENCE.md)에 정리했습니다.
 
 Chat 상대전적 보완: `LG와 기아의 상대전적 확인해줘`처럼 두 팀을 명시하면 선택한 시즌의 저장된 완료 맞대결을 계산해 GPT와 저장 Summary에 전달합니다. 기아/KIA, 엘지/LG 등 표기를 인식합니다. 상대전적에는 최근 경기 수 필터를 적용하지 않으며 한 팀 관점으로 경기 수를 계산합니다. 데이터 없음은 확인 불가로 안내합니다. 일반 질문은 기존 선택 팀·시즌·최근 경기 Summary를 사용합니다. 이전 대화 문맥 추론·투수 Chat 분석은 별도 미구현입니다.
 
