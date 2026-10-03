@@ -1,5 +1,9 @@
 # M1-2 현재 상태
 
+## 최신 — 최종 평가 Comment 반영·캡처 진행
+
+README 배포 미확보 문구와 과제 답변의 GPT 검증 전 문구를 수정했다. 설계 역할·Firestore 스키마/읽기 비용·컨텍스트 장단점·오류/검증 범위·상태 흐름·콜드스타트 수동 사전 접속·요약 기준 변경 절차를 정리했다. 모바일 목록 숨김을 해제해 상단 표시·터치 삭제 버튼을 제공하고 Chat 중 대화 전환/삭제 및 오래된 투수 목록 응답을 차단했다. 오프라인 Python 99개, 화면/배포/경합 가드 모의 검사 PASS. 실제 캡처 결과는 [제출 증빙](SUBMISSION_EVIDENCE.md)에 기록하며 미촬영 항목은 완료로 표시하지 않는다.
+
 ## 최신 — Render/Vercel 배포 및 Chat 상대전적 보완
 
 프론트엔드 https://m1-2kbo-data-ai-assistant.vercel.app/ 및 백엔드 https://m1-2-kbo-data-ai-assistant.onrender.com 배포. 에이전트는 health 200·공개 config.js의 Render 주소·정확한 Vercel CORS 허용을 확인했고, 사용자는 배포 Firestore connected true 및 실제 Chat 응답을 확인했다. 필수 배포 캡처/최종 CRUD·대화 통합 검증은 남았다. 아래 배포 미완료 문장은 이전 이력이다.

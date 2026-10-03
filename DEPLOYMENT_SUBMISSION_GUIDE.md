@@ -2,17 +2,17 @@
 
 ## 현재 상태
 
-업데이트: 실제 격리 DB 재실행 ce45a854d4b5의 8개는 에이전트 직접 확인 PASS. 실제 서버 충돌 재시도는 관측되지 않았으므로 별도 한계로 유지한다. **이제 실제 배포 준비로 진행**하며 아래 테스트 재실행 대기는 이전 이력이다.
+업데이트: 실제 격리 DB 재실행 ce45a854d4b5의 8개 PASS, Render/Vercel 배포 및 연결 확인. 실제 서버 충돌 재시도는 관측되지 않았으므로 별도 한계로 유지한다. 현재는 과제 Comment에 따른 문서·모바일 보완 및 최종 캡처 단계다.
 
-기능 확장은 멈추고 준비된 격리 DB 테스트 8개 재실행 → 배포 설정 → 실제 배포 → 필수 캡처 순서로 진행한다. 배포용 공개 설정 생성·서버 시연 키 검사 코드는 구현했지만 **실제 Render/Vercel 배포 URL은 아직 없다**. 새 GPT 호출·실제 배포는 이번 구현에서 하지 않는다.
+배포 주소는 README에 명시했다. 사용자 보고로 Firestore 연결·실제 GPT 답변을 확인했고, 에이전트는 공개 config.js·health·CORS를 확인했다. 다음은 모바일 목록 보완 배포 → 기존 대화/가상 CRUD/Swagger/모바일 캡처 → README 증빙 연결이다. [제출 증빙](SUBMISSION_EVIDENCE.md). 이번 캡처는 새 GPT 호출 없이 진행한다.
 
-## 1. 실제 보호 테스트 먼저
+## 1. 실제 보호 테스트 — 완료 범위와 재실행 안내
 
 [격리 가이드](ISOLATED_FIRESTORE_TEST_GUIDE.md)의 같은 프로젝트/테스트 JSON으로 재실행한다. 모든 8개 결과와 operation 재시도 수를 확인한다. 부분 실패의 counts는 확인된 처리 건수이며, 응답 불확실 커밋을 포함한 실제 DB 변경 총수를 보장하지 않는다. 전체 롤백을 주장하지 않는다.
 
 잠금 순서 설명은 삭제/일반 수정/추가 경로의 marker→record 보완에 한정한다. 자동 갱신·누락 보충의 get_all 경로까지 모든 잠금 순서가 통일됐다고 주장하지 않는다. 동시 수동 수정/적재 테스트는 적재 함수와의 경합이지 자동 갱신의 모든 경합 검증이 아니다.
 
-## 2. Render 백엔드 준비 — 아직 실제 생성 전
+## 2. Render 백엔드 설정 — 배포 완료
 
 프로젝트 루트를 기준으로 배포한다. CSV와 재사용 M1-1 수집기 폴더도 함께 배포해야 한다.
 
@@ -53,7 +53,7 @@ Vercel 환경변수:
 API_BASE_URL=https://실제백엔드.onrender.com
 ```
 
-공개 HTTPS origin만 허용한다. localhost/경로/쿼리/자격증명이 들어간 URL은 빌드에서 거부한다. OpenAI 키·서비스 계정 JSON·`DEMO_ACCESS_KEY`는 Vercel 설정/소스에 넣지 않는다. URL 변경 후 다시 빌드한다. Vercel 실제 주소가 확정되면 Render CORS를 해당 주소로 맞춘다. 아직 계정 연결·저장소 업로드·배포 실행은 하지 않았다.
+공개 HTTPS origin만 허용한다. localhost/경로/쿼리/자격증명이 들어간 URL은 빌드에서 거부한다. OpenAI 키·서비스 계정 JSON·`DEMO_ACCESS_KEY`는 Vercel 설정/소스에 넣지 않는다. URL 변경 후 다시 빌드한다. 현재 API_BASE_URL은 `https://m1-2-kbo-data-ai-assistant.onrender.com`, Render CORS는 `https://m1-2kbo-data-ai-assistant.vercel.app`이다. GitHub 계정 연결·실제 배포·CORS 검증은 완료했다.
 
 ## 4. 평가자 접근
 
@@ -63,7 +63,7 @@ API_BASE_URL=https://실제백엔드.onrender.com
 
 ## 5. 배포 후 필수 검증·캡처
 
-- [ ] 실제 프론트엔드·백엔드·Swagger URL을 README에 기록
+- [x] 실제 프론트엔드·백엔드·Swagger URL을 README에 기록
 - [ ] 무키/잘못된 키 API는 차단, 유효 시연 키로 접근
 - [ ] 키/서비스 계정 내용이 프론트엔드 산출물·캡처에 없는지 확인
 - [ ] 질문 + 실제 GPT 답변 + 선택 데이터 Summary가 함께 보이는 캡처

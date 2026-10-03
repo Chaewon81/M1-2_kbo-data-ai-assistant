@@ -28,7 +28,13 @@ GPT 검증: 사용자 보고로 실제 답변·Usage 542토큰 및 서버 재시
 
 기술 스택: Python/FastAPI·Pydantic, Firebase Admin/Firestore, OpenAI SDK, Vanilla HTML/CSS/JavaScript. 배포 대상은 Render 백엔드와 Vercel 정적 프론트엔드입니다.
 
-실제 배포 URL: **아직 미확보**. 프론트엔드 URL·백엔드 URL·Swagger URL은 배포 검증 후 등록하며 로컬 주소나 예시 주소를 제출 URL로 사용하지 않습니다. [배포·제출 체크리스트](DEPLOYMENT_SUBMISSION_GUIDE.md).
+배포 URL:
+
+- 프론트엔드: https://m1-2kbo-data-ai-assistant.vercel.app/
+- 백엔드 API: https://m1-2-kbo-data-ai-assistant.onrender.com
+- Swagger: https://m1-2-kbo-data-ai-assistant.onrender.com/docs
+
+평가자는 별도로 전달받은 시연 키를 화면 상단 또는 Swagger Authorize에 입력합니다. 키를 공개 README에 올리지 않습니다. [배포·제출 체크리스트](DEPLOYMENT_SUBMISSION_GUIDE.md).
 
 배포용 최소 설정: Render `APP_ENV=production`, `DEMO_ACCESS_KEY`(24자 이상), `OPENAI_API_KEY`, `AI_PROVIDER=openai`, `OPENAI_MODEL=gpt-4o-mini`, `OPENAI_MOCK_MODE=false`, `GOOGLE_APPLICATION_CREDENTIALS`, `LOCAL_CSV_MODE=false`, `REQUIRE_FIRESTORE=true`, `ALLOWED_ORIGINS`(실제 Vercel HTTPS 주소), `AUTO_SYNC_ENABLED=true`. Vercel에는 공개 값 `API_BASE_URL`(실제 Render HTTPS 주소)만 등록합니다. 빌드가 공개 `config.js`를 생성하며 API 키·서비스 계정·시연 키를 넣지 않습니다.
 
@@ -111,7 +117,7 @@ OpenRouter 무료 플랜은 무료 모델과 API 접근을 제공하지만 요�
 
 `GET /api/chat/status`에서 `mode: real`, `configured: true`를 확인합니다. 이것은 설정 존재 확인이지 실제 연결 성공 증명이 아닙니다. 화면에서 KIA·2026·최근 10경기를 선택하고 질문을 보내 실제 답변·Summary·대화 저장을 확인합니다. 응답 `model`이 `mock`이 아니고 화면에 '실제 AI 응답'이 표시되어야 합니다. 실제 응답의 숫자가 Summary와 일치하는지도 확인합니다.
 
-AI 요청은 45초 타임아웃·자동 재시도 0회·최대 출력 500토큰입니다. 무료 요청 한도와 크레딧 오류를 구분해 안내하며, AI 요청 실패 시 새 빈 대화를 만들지 않습니다. 무료 모델 가용성·한도 때문에 실패할 수 있습니다. 현재 Chat Context는 팀 Summary이며 투수 통계·예측 결과 및 이전 메시지 전달은 후속 작업입니다.
+AI 요청은 45초 타임아웃·자동 재시도 0회·최대 출력 500토큰입니다. 요청 한도와 크레딧 오류를 구분해 안내하며, AI 요청 실패 시 새 빈 대화를 만들지 않습니다. 현재 Chat Context는 팀 Summary 또는 시즌 상대전적이며 투수 통계·예측 결과 및 이전 메시지 전달은 후속 작업입니다.
 
 ## 데이터 경로
 
@@ -168,6 +174,71 @@ python backend\scripts\build_pitcher_stats.py `
 - 현재 투수 데이터는 팀별 이닝 상위 3명의 정규시즌 요약이며, 실제 예상 선발 자동 수집이나 선발 등판별 분석은 지원하지 않습니다.
 - OpenRouter는 무료 대안으로 검토했지만 최종 제출 경로는 OpenAI GPT입니다. OpenRouter 무료 모델을 GPT 사용 증빙으로 표시하지 않습니다.
 - 실제 배포 시 API 키는 Render 등 백엔드 환경변수에만 등록합니다.
+
+## 설계 설명 — 과제 평가 Comment 반영
+
+### 역할 분리와 Summary 재사용
+
+| 위치 | 역할 | 분리 이유 |
+|---|---|---|
+| `backend/main.py` | 앱·CORS·공통 오류·접근 보호 연결 | 공통 설정을 한 곳에서 관리 |
+| `backend/routers/` | HTTP 입력·응답·상태 코드 | API 경로와 분석 로직을 분리 |
+| `backend/services/` | 저장·집계·GPT 호출·자동 갱신 | 화면 없이도 단위 테스트·재사용 가능 |
+| `backend/models/schemas.py` | Pydantic 요청·응답 모델 | 날짜·타입·범위·필수값 검증 |
+| `backend/config.py` | 환경변수와 로컬 `.env` 읽기 | 키·환경별 설정을 코드에서 분리 |
+| `frontend/app.js` | API 요청·화면 상태 연결 | 바닐라 JavaScript로 사용자 흐름 구현 |
+
+`build_summary()`는 Summary API와 Chat이 함께 사용합니다. GPT가 수치를 계산하는 대신 서버가 승·패·무·승률·득실차를 계산하므로 계산 기준을 맞추고 별도로 테스트할 수 있습니다. 분리 자체가 읽기 비용을 없애지는 않습니다. Firestore는 팀 또는 시즌 조건으로 조회 범위를 줄이고 나머지 조건·정렬은 Python에서 처리하며, DB cursor pagination·공유 Summary 캐시는 아직 없습니다.
+
+### Firestore 저장 구조·조회
+
+- `data/{game_id}_{team}`: 팀 관점 경기 1건. `date`, `season`, `team`, `opponent`, 점수·결과·`run_diff`, `value`, `memo`, `status`, `is_manual`을 저장합니다. `value=팀 기준 득실차`, `memo=경기 요약`으로 미션 필드에 대응합니다.
+- `conversations/{id}`: 제목·생성/수정 시각·`messages`·`summary`. GPT 답변 성공 후 질문/답변 2개와 Summary를 한 문서 쓰기로 저장합니다. 같은 대화의 새 질문은 messages에 추가하고 최신 질문의 Summary로 교체합니다. 경기 자동 갱신만으로 저장 Summary를 바꾸지는 않습니다. 매 메시지별 Summary 이력은 별도 보관하지 않습니다.
+- `data_deletions`: 사용자 삭제 이력. 자동 수집이 삭제한 기록을 다시 생성하지 않도록 사용합니다. 동기화 메타데이터에는 성공 시각·대상일·lease 등을 별도 저장합니다.
+- 최신 완료 경기 조회에는 `status ASC, date DESC` 복합 인덱스를 사용합니다. 대화 목록은 현재 전체 문서를 읽어 정렬하므로 규모가 커지면 쿼리·저장 구조 개선이 필요합니다.
+- 기존 대화의 `summary`가 없는 경우도 읽을 수 있습니다. 향후 구조 변경은 백업 → 선택 필드/기본값 추가 → 이전 문서 읽기 테스트 → 필요할 때 별도 마이그레이션 순서로 진행합니다. 버전 필드·자동 마이그레이션은 현재 미구현입니다.
+
+### 컨텍스트 주입: 장점·한계·대응
+
+`질문 → 저장 데이터 집계 → System Prompt에 JSON Summary 주입 → GPT 설명 → 대화 저장` 순서입니다. 상대전적 질문은 선택 시즌의 완료 맞대결 Summary를 사용합니다. 원본 CSV 전체를 보내지 않아 토큰을 줄이고 근거 수치를 추적하기 쉽습니다. 반대로 요약에서 빠진 정보는 답할 수 없고, 데이터 최신성·수집 품질에 따라 답변도 달라집니다. 지시문만으로 환각·프롬프트 공격을 완전히 막지는 못합니다.
+
+사용자 질문은 별도 user 메시지로 전달하고 Summary는 계산된 구조화 데이터로 제한합니다. 없는 사실을 단정하지 않도록 지시하며, 질문 최대 4,000자·최근 경기 수 1~100·출력 최대 500토큰·AI timeout 45초·자동 재시도 0회로 제한합니다. 기존 messages는 저장되지만 현재 GPT 요청에는 전달하지 않습니다. 투수 비교 Chat은 별도 확장 범위이며 예측 화면의 투수 반영과 구분합니다.
+
+사용자 실행·보고로 확인한 실제 예시(당시 저장 Summary): KIA 2026-09-10~09-26, 10경기·6승 4패·승률 60%, 최근 5경기 승률 80%, 평균 득실차 1.3. GPT 답변도 이 수치를 설명했습니다. 이 예시는 현재 최신 통계가 아니라 저장 시점의 결과이며, 실제 응답·Usage 542토큰·재시작 후 대화 복원 확인과 배포 화면 캡처는 구분합니다.
+
+### 입력 검증·오류·보안
+
+날짜 형식·시즌 1900~2100·음수 점수 금지·허용 status/result·질문 길이·memo 최대 500자를 Pydantic에서 검증합니다. 완료 경기는 점수·결과·득실차 필수입니다. 점수 수정 시 결과·득실차를 서버가 다시 계산하고 수정 결과를 재검증합니다. 생성 요청의 점수/result 의미 일치, 팀명 허용 목록·공백 전용 질문 검사에는 추가 강화 여지가 있습니다. 검증을 완전한 데이터 품질 보장으로 설명하지 않습니다.
+
+- `POST /api/data`에서 `runs_for=-1`이면 422 검증 오류. 잘못된 JSON도 422입니다.
+- 없는 ID 조회·수정·삭제는 404, 삭제 이력과 충돌하는 추가는 409입니다.
+- 접근 키 없음/오류는 401, 실제 Chat 분당 한도 및 AI 할당량 초과는 429, 필수 Firestore 실패는 503, AI timeout은 504입니다.
+- 화면 출력은 `escapeHtml()`로 HTML 특수문자를 이스케이프합니다. 입력에서 모든 특수문자를 금지하는 방식은 아닙니다. 공유 시연 키는 개인별 권한·비용 상한을 대체하지 않습니다.
+
+### 화면 상태·모바일·콜드스타트
+
+새 대화는 `conversationId=null` → Chat 성공 시 응답 ID 저장 → 목록 갱신, 기존 대화 선택은 GET 결과의 messages·당시 Summary를 표시합니다. 전송 중에는 중복 전송·새 대화 시작을 막고 로딩 표시·60초 화면 대기 제한을 둡니다. 시간 초과 후에는 저장이 이미 완료됐을 수도 있으므로 대화 목록부터 확인합니다. 대화 불러오기·삭제도 전송 중에는 막습니다. 투수 목록 요청은 최신 팀·시즌 요청만 화면에 반영합니다.
+
+850px 이하에서는 대화 목록을 화면 상단에 표시하고, Chat/Summary는 세로 배치합니다. 삭제 버튼은 터치 화면에서도 항상 보이고 데이터 표는 가로 스크롤됩니다. CSS/모의 테스트와 실제 브라우저 사용성 검증·캡처는 구분하며 결과는 아래 증빙 안내에 기록합니다.
+
+첫 접속 서버 시작 지연을 화면에 안내합니다. 시연 전에 백엔드 `/health`와 화면을 열고 갱신 상태가 성공하는지 확인하는 **수동 사전 접속**을 권장합니다. 상시 주기적 호출로 무료 서버 슬립을 회피하지 않습니다. 콜드스타트 안내/사전 접속은 응답 시간을 보장하지 않으며 비용·시간 초과 안내를 함께 사용합니다.
+
+배포 CORS는 `ALLOWED_ORIGINS=https://m1-2kbo-data-ai-assistant.vercel.app`로 정확한 origin을 허용합니다. Vercel은 공개 `API_BASE_URL`만 빌드에 주입하고, OpenAI 키·서비스 계정은 Render 환경변수/Secret File에만 둡니다. Secret File에는 파일 경로나 이름이 아니라 실제 JSON 내용을 넣어야 합니다. 설정 화면을 캡처할 때는 비밀 값·키가 표시되지 않게 합니다.
+
+### 요약 기준 변경 절차
+
+최근 경기 수는 화면/API의 `last_n`으로 바꿉니다. 지표를 바꾸려면 `summary_service.py` 및 Chat/화면의 해당 표시를 함께 수정하고 시즌·빈 데이터·상대전적 회귀 테스트를 실행합니다. `last_n`은 최근 **경기 수**이지 최근 날짜 수가 아니며 최근 30일 기능은 별도 날짜 필터가 필요합니다. 저장 대화는 당시 분석 결과로 유지하고 새 질문만 새 기준을 적용합니다. 기존 대화를 무조건 재요약하는 스크립트는 만들지 않았습니다.
+
+```powershell
+python -m unittest backend.scripts.test_season_data backend.scripts.test_chat_matchup backend.scripts.test_chat_provider -v
+node backend/scripts/test_chat_matchup_frontend.cjs
+node backend/scripts/test_auto_sync_frontend.cjs
+node backend/scripts/test_deploy_frontend.cjs
+```
+
+## 제출 증빙
+
+[캡처·배포 검증 기록](SUBMISSION_EVIDENCE.md)에 필수 Chat/CRUD/대화 불러오기·Swagger·모바일 캡처와 확인 시각을 기록합니다. 실제 촬영·검증되지 않은 항목은 대기로 둡니다. 자동 갱신 화면이나 코드 테스트만으로 Firestore 추가·모바일 사용성 증빙을 대신하지 않습니다. 평가자에게 시연 키는 비공개 채널로 전달합니다.
 
 ## 개발 기록
 

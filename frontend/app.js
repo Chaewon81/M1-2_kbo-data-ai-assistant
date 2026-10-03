@@ -13,11 +13,13 @@ async function apiFetch(url, options = {}) {
   return response;
 }
 let conversationId = null;
+let conversationLoadRequest = 0;
 const $ = (id) => document.getElementById(id);
 let chatBusy = false;
 let syncBusy = false;
 let liveSummaryRequest = 0;
 let syncStatusUnknown = false;
+const pitcherRequests = new Map();
 
 async function fetchSyncJson(url, options = {}, timeoutMs = 15000) {
   const controller = new AbortController();
@@ -144,6 +146,7 @@ function showSummary(summary) {
 
 function resetChat() {
   if (chatBusy) return;
+  conversationLoadRequest++;
   conversationId = null;
   $('chatMessages').innerHTML = '<div class="welcome-message"><div><strong>안녕하세요! KBO AI입니다.</strong><p>팀과 시즌을 선택하고 궁금한 점을 질문해보세요.</p></div></div>';
   $('summaryPeriod').textContent = '질문을 보내면 Summary가 표시됩니다.';
@@ -159,9 +162,12 @@ async function loadConversations() {
 }
 
 async function loadConversation(id) {
+  if (chatBusy) throw new Error('답변 생성이 끝난 뒤 대화를 선택해주세요.');
+  const loadId = ++conversationLoadRequest;
   const r = await apiFetch(`${API_BASE_URL}/api/conversations/${encodeURIComponent(id)}`);
   const data = await r.json();
   if (!r.ok) throw new Error(data.detail || '대화를 불러오지 못했습니다.');
+  if (chatBusy || loadId !== conversationLoadRequest) return;
   conversationId = data.id;
   $('chatMessages').innerHTML = '';
   (data.messages || []).forEach((m) => addMessage(m.content, m.role));
@@ -178,6 +184,8 @@ async function loadData() {
 }
 
 async function loadPitchers(selectId, teamId) {
+  const requestId = (pitcherRequests.get(selectId) || 0) + 1;
+  pitcherRequests.set(selectId, requestId);
   const old = $(selectId);
   if (!old) return;
   const select = old.tagName === 'SELECT' ? old : Object.assign(document.createElement('select'), { id: selectId });
@@ -188,6 +196,7 @@ async function loadPitchers(selectId, teamId) {
     const team = $(teamId).value;
     const r = await apiFetch(`${API_BASE_URL}/api/pitchers?season=${season}&team=${encodeURIComponent(team)}`);
     const data = await r.json();
+    if (pitcherRequests.get(selectId) !== requestId) return;
     (data.items || []).forEach((item) => {
       const option = document.createElement('option');
       option.value = item.player;
@@ -203,6 +212,7 @@ $('chatForm').addEventListener('submit', async (event) => {
   const input = $('message');
   const message = input.value.trim();
   if (!message || chatBusy) return;
+  conversationLoadRequest++;
   chatBusy = true;
   addMessage(message, 'user');
   input.value = '';
@@ -231,6 +241,10 @@ $('chatForm').addEventListener('submit', async (event) => {
 $('newChat').addEventListener('click', resetChat);
 $('refreshData').addEventListener('click', () => { loadData(); loadLiveSummary(); requestGameSync(); });
 $('conversationList').addEventListener('click', async (event) => {
+  if (chatBusy) {
+    alert('답변 생성이 끝난 뒤 대화를 열거나 삭제해주세요.');
+    return;
+  }
   const deleteButton = event.target.closest('.conversation-delete');
   if (deleteButton) {
     event.stopPropagation();

@@ -17,6 +17,12 @@ class PitcherIntegrationTests(unittest.TestCase):
         }):
             with patch("backend.services.firebase_service.get_firestore_client", side_effect=RuntimeError("local test")):
                 from backend.main import app
+            # This suite tests CSV/prediction behavior, not deployment authentication.
+            # Do not depend on a user's private .env demonstration key.
+            from backend.services.access_service import require_demo_access
+            override = patch.dict(app.dependency_overrides, {require_demo_access: lambda: None})
+            override.start()
+            cls.addClassCleanup(override.stop)
             cls.client = TestClient(app)
 
     def test_all_teams_and_player_ids(self):
