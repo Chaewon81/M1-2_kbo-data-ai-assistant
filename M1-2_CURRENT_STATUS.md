@@ -1,5 +1,11 @@
 # M1-2 현재 상태
 
+## 최신 — Render/Vercel 배포 및 Chat 상대전적 보완
+
+프론트엔드 https://m1-2kbo-data-ai-assistant.vercel.app/ 및 백엔드 https://m1-2-kbo-data-ai-assistant.onrender.com 배포. 에이전트는 health 200·공개 config.js의 Render 주소·정확한 Vercel CORS 허용을 확인했고, 사용자는 배포 Firestore connected true 및 실제 Chat 응답을 확인했다. 필수 배포 캡처/최종 CRUD·대화 통합 검증은 남았다. 아래 배포 미완료 문장은 이전 이력이다.
+
+상대전적 답변 불가 원인은 Chat에 단일 팀 최근 Summary만 전달하던 범위 제한이다. 질문의 두 팀/별칭을 인식해 선택 시즌의 완료 맞대결 전체를 계산·GPT에 주입·대화 Summary에 저장하도록 보완했다. 최근 경기 수 미적용, 한 팀 관점 집계, 서로 다른 더블헤더 ID 보존. 관련 Chat 회귀 14개 및 JS 문법 PASS, 이번 변경에서 실제 GPT 호출·운영 DB 쓰기는 하지 않았다. 배포 후 새 질문으로 실제 답변 검증 필요.
+
 ## 이번 진행 상태 — GitHub Public 업로드 완료
 
 실제 격리 DB 보호 테스트 8개 PASS, 배포용 API 설정/시연 접근 보호와 문서 보완 완료. 업로드 전 385개 staged 파일 비밀 검사를 통과했고, 실제 .env/Firebase 서비스 계정/가상환경/임시 도구·쿠키는 제외했다. Public 저장소 `https://github.com/Chaewon81/M1-2_kbo-data-ai-assistant`에 첫 커밋 `92f0f3994cf7f46b8c132eaa880afb584dd77634`를 올렸으며 로컬·원격 main 일치, 작업 트리 clean을 확인했다. 실제 Render/Vercel 배포 URL과 배포 후 필수 캡처는 미완료. [재개 메모](NEXT_SESSION.md)를 우선 참고한다.

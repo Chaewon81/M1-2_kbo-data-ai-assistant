@@ -137,7 +137,8 @@ function showSummary(summary) {
   const m = summary.metrics || {};
   const recent = summary.recent || {};
   const p = summary.period || {};
-  $('summaryPeriod').textContent = `${p.from || '-'} ~ ${p.to || '-'} · ${summary.count}경기`;
+  const matchup = summary.head_to_head;
+  $('summaryPeriod').textContent = `${matchup ? `${matchup.team_a} vs ${matchup.team_b} · 시즌 상대전적 · ` : ''}${p.from || '-'} ~ ${p.to || '-'} · ${summary.count}경기`;
   $('summaryContent').innerHTML = `<div class="summary-grid"><div class="stat"><small>승률</small><strong>${((m.win_rate || 0) * 100).toFixed(1)}%</strong></div><div class="stat"><small>평균 득실차</small><strong>${m.average_run_diff ?? 0}</strong></div><div class="stat"><small>승 / 패 / 무</small><strong>${m.wins || 0} / ${m.losses || 0} / ${m.draws || 0}</strong></div><div class="stat"><small>최근 ${recent.window || 0}경기</small><strong>${((recent.win_rate || 0) * 100).toFixed(1)}%</strong></div></div><p class="trend">현재 추세: ${escapeHtml(summary.trend || '확인 불가')}</p>`;
 }
 

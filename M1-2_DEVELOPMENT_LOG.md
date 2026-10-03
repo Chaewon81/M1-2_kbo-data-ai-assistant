@@ -1,5 +1,11 @@
 # M1-2 개발 과정 기록
 
+## 2026-10-03 — 실제 배포와 상대전적 Chat 보완
+
+Render requirements 경로 및 빈 Secret File 문제를 사용자와 해결했다. 백엔드 health 200, Vercel 공개 API 설정과 실제 origin CORS 허용 확인. 사용자 배포 Firestore 연결/Chat 응답 확인. GPT가 상대전적을 답하지 못한 원인은 단일 팀 최근 Summary만 주입하던 범위 제한이었다.
+
+질문의 두 팀/별칭 인식 → 선택 시즌 완료 맞대결 집계 → GPT Context와 대화 Summary에 저장 → 화면에 시즌 상대전적 표시를 추가했다. 한 팀 관점으로 중복 집계를 방지하고 더블헤더 ID를 구분한다. 최근 경기 수 필터는 적용하지 않는다. 모두 무승부인 Mock의 None 승률 포맷 오류도 보완했다. Chat 회귀 14개/JS 문법 PASS, 실제 GPT·운영 DB 쓰기 없이 검증. 변경 배포 후 새 질문·필수 캡처 검증은 별도다.
+
 ## GitHub Public 첫 업로드 완료
 
 사용자가 Public으로 선택한 `Chaewon81/M1-2_kbo-data-ai-assistant`에 385개 파일을 업로드했다. staged 비밀 검사 PASS, 발견 0건. 커밋 `92f0f3994cf7f46b8c132eaa880afb584dd77634`의 SHA가 로컬과 원격 main에서 일치하고 작업 트리가 clean임을 확인했다. `.env`, Firebase 서비스 계정 JSON, `.venv`, `.tools`, 쿠키/HAR/로그는 제외했다. 다음 단계는 Render/Vercel 실제 배포와 필수 시연 캡처다.
